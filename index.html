@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
+    <script src="main.js"></script>
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        AFRAME.registerComponent('modify-materials', {
+          init: function () {
+            // Wait for model to load.
+            console.log(1)
+            this.el.addEventListener('model-loaded', () => {
+              // Grab the mesh / scene.
+              const obj = this.el.getObject3D('mesh');
+              // Go over the submeshes and modify materials we want.
+              obj.traverse(node => {
+                if (node.name.indexOf('ship')  == -1) {
+                  node.material.opacity.set('0.5');
+                  console.log(3)
+                }
+              });
+            });
+          }
+        });
+    </script>
+    <a-scene>
+
+        <a-assets>
+            <a-asset-item id ="kast-obj" src="models/compkast.obj"></a-asset-item>
+            <a-asset-item id ="kast-mtl" src="models/compkast.mtl"></a-asset-item>
+
+            <a-asset-item id ="motherboard-mtl" src="models/Motherboard.obj"></a-asset-item>
+            <a-asset-item id ="motherboard-obj" src="models/Motherboard.mtl"></a-asset-item>
+
+            <a-asset-item id="motherboard-model" src="models/Motherboard.glb"></a-asset-item>
+            <a-asset-item id="motherboard-model" src="models/CPU.glb"></a-asset-item>
+        </a-assets>
+
+        <a-camera id="camera">
+            <a-entity
+                animation__click="property: scale; startEvents: click; easing: easeInCubic; dur: 150; from: 0.1 0.1 0.1; to: 1 1 1"
+                animation__fusing="property: scale; startEvents: fusing; easing: easeInCubic; dur: 1000; from: 1 1 1; to: 0.1 0.1 0.1"
+                animation__mouseleave="property: scale; startEvents: mouseleave; easing: easeInCubic; dur: 500; to: 1 1 1"
+                cursor="fuse: true;"
+                position="0 0 -1"
+                geometry="primitive: ring; radiusInner: 0.02; radiusOuter: 0.03"
+                material="color: black; shader: flat"
+                raycaster="far: 20; interval: 1000; objects: .picks, .places, .reset">
+            </a-entity>
+            <a-box position="-2 -0.5 1", material="opacity: 0; transparent: true" color="black" id="hold"> </a-box>
+        </a-camera>
+        
+        <a-plane position="0 0 -8", rotation = "-90 0 0", color = "red", width = "30", height="30"></a-plane>
+
+        <!-- <a-box position="6.5 2 0", material="opacity: 1; transparent: true" color="purple" class="picks" width="6" height="4" depth="0.5" rotation="0 -90 0">
+            <a-text value="Moederbord" color="black" scale="5 5 5" position="-3 0 0.3"></a-text>
+        </a-box> -->
+
+        <a-entity class="picks" position="6.5 2.5 0" gltf-model= "#motherboard-model" position="0 1 0" rotation="90 -90 0"></a-entity>
+
+        <a-entity class="places" position="-1.4 1.2 -5" gltf-model= "#motherboard-model" position="0 1 0" rotation="90 0 0" material="opacity: 0.5; transparent: true" modify-materials></a-entity>
+
+        <a-box position="5 0.5 1.5", material="opacity: 1; transparent: true" color="blue" class="picks" width ="2" height="0.8" depth="1.5" rotation="0 -90 0">
+            <a-text value="Videokaart" color="black" scale="2 2 2" position="-1 0 0.8"></a-text>
+        </a-box>
+
+        <a-box position="5 0.5 -1", material="opacity: 1; transparent: true" color="green" class="picks" depth="0.2" rotation="0 -90 0">
+            <a-text value="CPU" color="black" scale="2 2 2" position="-0.5 0 0.1"></a-text>
+        </a-box>
+
+
+        <a-box position="0 1 -6", material="opacity: 0.5; transparent: true" color="purple" class="places" width="6" height="8" depth="0.5"> 
+            <a-text value="Moederbord" color="black" scale="5 5 5" position="-3 2 0.3"></a-text>
+        </a-box>
+        
+        <a-box position="-1.4 1.2 -5", material="opacity: 0.5; transparent: true" color="blue" class="places" width ="2" height="0.8" depth="1.5">
+            <a-text value="Videokaart" color="black" scale="2 2 2" position="-1 0 0.8"></a-text>
+        </a-box>
+
+        <a-box position="0 4 -5.7", material="opacity: 0.5; transparent: true" color="green" class="places" depth="0.2">
+            <a-text value="CPU" color="black" scale="2 2 2" position="-0.5 0 0.1"></a-text>
+        </a-box>
+
+        <a-entity obj-model = "obj: #kast-obj; mtl: #kast-mtl" position="0 3 -5" rotation= "0 180 0"> </a-entity>
+
+        <a-sphere position="-7 2 -1" color="grey" class="reset"></a-sphere>
+    </a-scene> 
+</body>
+</html>

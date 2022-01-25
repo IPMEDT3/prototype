@@ -5,6 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
+    <script src="https://unpkg.com/aframe-slice9-component/dist/aframe-slice9-component.min.js"></script>
     <script src="main.js"></script>
     <title>Document</title>
 </head>
@@ -21,8 +22,8 @@
               // Go over the submeshes and modify materials we want.
               obj.traverse(node => {
                 if (node.name.indexOf('ship')  == -1) {
-                  node.material.opacity.set('0.5');
-                  console.log(3)
+                    node.mesh.material.opacity="0.2"
+                    node.mesh.material.transparent="true"
                 }
               });
             });
@@ -35,55 +36,59 @@
             <a-asset-item id ="kast-obj" src="models/compkast.obj"></a-asset-item>
             <a-asset-item id ="kast-mtl" src="models/compkast.mtl"></a-asset-item>
 
-            <a-asset-item id ="motherboard-mtl" src="models/Motherboard.obj"></a-asset-item>
-            <a-asset-item id ="motherboard-obj" src="models/Motherboard.mtl"></a-asset-item>
-
             <a-asset-item id="motherboard-model" src="models/Motherboard.glb"></a-asset-item>
-            <a-asset-item id="motherboard-model" src="models/CPU.glb"></a-asset-item>
+            <a-asset-item id="cpu-model" src="models/CPU.glb"></a-asset-item>
         </a-assets>
 
         <a-camera id="camera">
+            <a-plane id="textBorder" width="0.57" height="0.30" color="black" position="-0.61 0.27 -0.5" material="shader:flat">
+                <a-plane id="textBar" width="0.55" height="0.28" color="grey" position="0 0 0.01" material="shader:flat">
+                    <a-text id="infoTitle" width="1.2" value="test" align="center" position="0 0.11 0" color="black" shader="flat" wrapCount="25"></a-text>
+                    <a-text id="infoText" width="0.7" value="test" align="center" position="0 0 0" shader="flat"></a-text>
+                </a-plane>
+            </a-plane>
             <a-entity
                 animation__click="property: scale; startEvents: click; easing: easeInCubic; dur: 150; from: 0.1 0.1 0.1; to: 1 1 1"
                 animation__fusing="property: scale; startEvents: fusing; easing: easeInCubic; dur: 1000; from: 1 1 1; to: 0.1 0.1 0.1"
                 animation__mouseleave="property: scale; startEvents: mouseleave; easing: easeInCubic; dur: 500; to: 1 1 1"
                 cursor="fuse: true;"
-                position="0 0 -1"
-                geometry="primitive: ring; radiusInner: 0.02; radiusOuter: 0.03"
+                position="0 0 -0.1"
+                geometry="primitive: ring; radiusInner: 0.003; radiusOuter: 0.0045"
                 material="color: black; shader: flat"
-                raycaster="far: 20; interval: 1000; objects: .picks, .places, .reset">
+                raycaster="far: 20; interval: 1000; objects: .picks, .places, .reset, .placesModel, .picksModel">
             </a-entity>
-            <a-box position="-2 -0.5 1", material="opacity: 0; transparent: true" color="black" id="hold"> </a-box>
+            <a-box position="-2 -0.5 1" material="opacity: 0; transparent: true" color="black" id="hold"> </a-box>
+            <a-entity position="1.3 -0.5 -1" id="holdModel" rotation="90 0 0" scale="0.5 0.5 0.5"></a-entity>
         </a-camera>
         
         <a-plane position="0 0 -8", rotation = "-90 0 0", color = "red", width = "30", height="30"></a-plane>
 
-        <!-- <a-box position="6.5 2 0", material="opacity: 1; transparent: true" color="purple" class="picks" width="6" height="4" depth="0.5" rotation="0 -90 0">
+        <a-box position="6.5 2 0", material="opacity: 1; transparent: true" color="purple" class="picks" width="6" height="4" depth="0.5" rotation="0 -90 0" title="Moederbord" text="dit is een Moederbord">
             <a-text value="Moederbord" color="black" scale="5 5 5" position="-3 0 0.3"></a-text>
-        </a-box> -->
+        </a-box>
 
-        <a-entity class="picks" position="6.5 2.5 0" gltf-model= "#motherboard-model" position="0 1 0" rotation="90 -90 0"></a-entity>
+        <a-entity class="picksModel" gltf-model= "#motherboard-model" position="0 1 0" rotation="90 -90 0"></a-entity>
 
-        <a-entity class="places" position="-1.4 1.2 -5" gltf-model= "#motherboard-model" position="0 1 0" rotation="90 0 0" material="opacity: 0.5; transparent: true" modify-materials></a-entity>
+        <a-entity class="placesModel" position="-1.4 1.2 -5" gltf-model= "#motherboard-model" rotation="90 0 0" opacity="0.5" modify-materials></a-entity> 
 
-        <a-box position="5 0.5 1.5", material="opacity: 1; transparent: true" color="blue" class="picks" width ="2" height="0.8" depth="1.5" rotation="0 -90 0">
+        <a-box position="5 0.5 1.5" material="opacity: 1; transparent: true" color="blue" class="picks" width ="2" height="0.8" depth="1.5" rotation="0 -90 0" title="Videokaart" text="dit is een videokaart">
             <a-text value="Videokaart" color="black" scale="2 2 2" position="-1 0 0.8"></a-text>
         </a-box>
 
-        <a-box position="5 0.5 -1", material="opacity: 1; transparent: true" color="green" class="picks" depth="0.2" rotation="0 -90 0">
+        <a-box position="5 0.5 -1" material="opacity: 1; transparent: true" color="green" class="picks" depth="0.2" rotation="0 -90 0" title="CPU" text="Dit is een CPU">
             <a-text value="CPU" color="black" scale="2 2 2" position="-0.5 0 0.1"></a-text>
         </a-box>
 
 
-        <a-box position="0 1 -6", material="opacity: 0.5; transparent: true" color="purple" class="places" width="6" height="8" depth="0.5"> 
+        <a-box position="0 1 -6" material="opacity: 0.5; transparent: true" color="purple" class="places" width="6" height="8" depth="0.5"> 
             <a-text value="Moederbord" color="black" scale="5 5 5" position="-3 2 0.3"></a-text>
         </a-box>
         
-        <a-box position="-1.4 1.2 -5", material="opacity: 0.5; transparent: true" color="blue" class="places" width ="2" height="0.8" depth="1.5">
+        <a-box position="-1.4 1.2 -5" material="opacity: 0.5; transparent: true" color="blue" class="places" width ="2" height="0.8" depth="1.5">
             <a-text value="Videokaart" color="black" scale="2 2 2" position="-1 0 0.8"></a-text>
         </a-box>
 
-        <a-box position="0 4 -5.7", material="opacity: 0.5; transparent: true" color="green" class="places" depth="0.2">
+        <a-box position="0 4 -5.7" material="opacity: 0.5; transparent: true" color="green" class="places" depth="0.2">
             <a-text value="CPU" color="black" scale="2 2 2" position="-0.5 0 0.1"></a-text>
         </a-box>
 

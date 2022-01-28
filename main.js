@@ -157,7 +157,7 @@ window.onload = () =>{
                 for(let i= 0; i<placeModels.length; i++){
                     if (placeModels[i].getAttribute("modelopacity") == 1){
                         finishedList.push(placeModels[i])
-                        if(finishedList.length == 1){
+                        if(finishedList.length == placeModels.length){
                             cursor.setAttribute("raycaster", {objects: ".finishbutton, #done"})
                             uitlegBar.parentNode.removeChild(uitlegBar)
                             storageP.parentNode.appendChild(finish)

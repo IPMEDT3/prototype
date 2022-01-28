@@ -52,6 +52,7 @@
                 </a-plane>
             </a-plane>
             <a-entity
+                id="cursor"
                 animation__click="property: scale; startEvents: click; easing: easeInCubic; dur: 150; from: 0.1 0.1 0.1; to: 1 1 1"
                 animation__fusing="property: scale; startEvents: fusing; easing: easeInCubic; dur: 1000; from: 1 1 1; to: 0.1 0.1 0.1"
                 animation__mouseleave="property: scale; startEvents: mouseleave; easing: easeInCubic; dur: 500; to: 1 1 1"
@@ -59,11 +60,22 @@
                 position="0 0 -0.1"
                 geometry="primitive: ring; radiusInner: 0.002; radiusOuter: 0.0035"
                 material="color: black; shader: flat"
-                raycaster="far: 20; interval: 1000; objects: .picks, .places, .reset, .placesModel, .picksModel">
+                raycaster="far: 20; interval: 1000; objects: .tutorialButtons">
             </a-entity>
             <a-box position="-2 -0.5 1" material="opacity: 0; transparent: true" color="black" id="hold"> </a-box>
             <a-entity position="1.3 -0.6 -1" id="holdModel" rotation="90 0 0" scale="0.5 0.5 0.5"></a-entity>
         </a-camera>
+
+        <a-plane id="tutorialScreen"color = "grey" width="5" height="5" position="0 1 -3" >
+            <a-text align="center" id="title" value="Uitleg" position="0 2 0" color="black" width="8" ></a-text>
+            <a-text align="center" id="uitlegText" value="Dit is PC-building-learner-vr, met deze VR beleving gaan wij jou aanleren hoe je een Computer in elkaar moet zetten.\n\n Hier is alvast wat informatie over de VR beleving." position="0 0.8 0" color="white"></a-text>
+            <a-plane class="tutorialButtons" id="nextTutorial" width="1" height="0.5" color="white" position="1.5 -0.4 0.1">
+                <a-text value="Next" align="center" color="black"></a-text>
+            </a-plane>
+            <a-plane class="tutorialButtons" id="skipTutorial" width="1" height="0.5" color="white" position="-1.5 -0.4 0.1">
+                <a-text value="Skip" align="center" color="black"></a-text>
+            </a-plane>
+        </a-plane>
 
         <a-entity light="type: ambient; intensity:0.3"></a-entity>
 
@@ -97,3 +109,8 @@
         <a-entity class="picksModel" gltf-model="#cpuCooler-model" scale="1.1 1.1 1.1" rotation="90 -90 0" position="6 1 3" title="CPU cooler" infoText="De CPU verbruikt veel stroom en wordt daardoor ook snel warm, de CPU mag niet te warm worden want dan beschadigt die. Hiervoor is de CPU koeler. Dit is meestal een ventilator met een heatsink die de hitte opvangt. De koeler wordt bovenop de CPU geplaatst doormiddel van schroefjes en een soort lijm."></a-entity>
 
         <a-entity obj-model = "obj: #kast-obj; mtl: #kast-mtl" position="0 3 -5" rotation= "0 180 0"> </a-entity>
+
+        <a-sky color="lightblue"></a-sky>
+    </a-scene>
+</body>
+</html>

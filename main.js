@@ -6,6 +6,7 @@ window.onload = () =>{
     var editTextBorder = textBorder.cloneNode(true);
     const infoText = document.getElementById("infoText")
     const infoTitle = document.getElementById("infoTitle")
+    textBorder.parentNode.removeChild(textBorder)
     
     //move models
     const item = document.getElementById("holdModel")
@@ -22,7 +23,42 @@ window.onload = () =>{
     let motherboardVisible = false;
     let cpuVisible = false;
 
-    textBorder.parentNode.removeChild(textBorder)
+    //tutorial
+    const tutorialScreen = document.getElementById("tutorialScreen")
+    const tutorialButtons = document.getElementsByClassName("tutorialButtons") 
+    const cursor = document.getElementById("cursor")
+    const tutorial = ["Je kan zo na de tutorial de onderdelen die rechts van je liggen oppaken door er naar te kijken, hierna moet je deze elementen op de juiste plek in de computer kast zetten door naar de doorzichtige elementen te kijken.", "Tijdens het spel krijg je hints te ze zien over welke onderdelen je het beste eerst kan plaatsen. Ook kunnen er nieuwe elementen geplaatst worden als er een bepaald element in de kast zit, je kan dus niet alle elementen vanaf het begin plaatsen.", "Dit was de tutorial over hoe de ervaring in zijn werk gaat, veel succes met de computer!"]
+    const uitlegText = document.getElementById("uitlegText")
+    const skipButton = document.getElementById("skipTutorial")
+    const nextButton = document.getElementById("nextTutorial")
+    let j=0
+
+
+
+    for(let i=0; i<tutorialButtons.length; i++){
+        const button = tutorialButtons[i]
+        button.onmouseenter = () =>{
+            button.setAttribute("color", "#0dd0b4")
+        }
+        button.onmouseleave = () =>{
+            button.setAttribute("color", "white")
+        }
+        button.onclick = () =>{
+            if(button.id == "skipTutorial"){
+                endTutorial()
+            } else{
+                uitlegText.setAttribute("value", tutorial[j])
+                j++
+                if(j == tutorial.length){
+                    skipButton.parentNode.removeChild(skipButton)
+                    nextButton.object3D.position.set(0, -0.4, 0.1)
+                    nextButton.children[0].setAttribute("value", "Finish")
+                } else if(j == tutorial.length+1){
+                    endTutorial()
+                }
+            }
+        }
+    }    
 
     for(let i=0; i<pickModels.length;i++){
         const picked = pickModels[i];
@@ -73,6 +109,12 @@ window.onload = () =>{
                 }
             }
         }
+    }
+
+    function endTutorial(){
+        tutorialScreen.parentNode.removeChild(tutorialScreen)
+        cursor.setAttribute("raycaster", {objects: ".picks, .places, .reset, .placesModel, .picksModel, .tutorialButtons"})
+
     }
 
     // for(let i = 0; i< resets.length; i++){

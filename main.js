@@ -38,7 +38,7 @@ window.onload = () =>{
 
     //uitleg
     const uitlegBar = document.getElementById("uitleg")
-    const uitleg = ["Je kan het beste beginnen met het plaatsen van de opslag zodat er geen onderdelen in de weg zitten en je er goed bij kan komen.", "Daarna kan je het beste het moederbord plaatsen omdat de rest van de onnderdelen allemaal op het moederbord worden geplakt", "Hierna kan je de videokaart, RAM en cpu plaatsen.", "Nadat de CPU is geplaatst kan je de CPU-cooler op de CPU zetten"]
+    const uitleg = ["Je kan het beste beginnen met het plaatsen van de Power Supply Unit zodat je alle onderdelen meteen aan kan sluiten aan de stroom.","Dan kan je het beste dingen gaan plaatsen zoals de Ventilators en de Opslag zodat het moederbord niet in de weg zit", "Daarna kan je het beste het moederbord plaatsen omdat de rest van de onnderdelen allemaal op het moederbord worden geplakt", "Hierna kan je de videokaart, RAM en cpu plaatsen.", "Nadat de CPU is geplaatst kan je de CPU-cooler op de CPU zetten"]
     uitlegBar.parentNode.removeChild(uitlegBar)
 
     //endScreen
@@ -182,6 +182,7 @@ window.onload = () =>{
             holdsItem = true
             const model = picked.getAttribute("gltf-model")
             item.setAttribute("gltf-model", model)
+
             picked.setAttribute("modelopacity", "0.3")
 
             infoTitle.setAttribute("value", picked.getAttribute("title"))
@@ -219,10 +220,10 @@ window.onload = () =>{
 
     //starts the game
     function endTutorial(){
-        camera.appendChild(uitlegBar)
-        showUitleg(0)
         tutorialScreen.parentNode.removeChild(tutorialScreen)
         cursor.setAttribute("raycaster", {objects: ".picks, .places, .reset, .placesModel, .picksModel, .tutorialButtons, .finishbutton"})
+        camera.appendChild(uitlegBar)
+        showUitleg(0)
 
     }     
 }

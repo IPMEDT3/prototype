@@ -43,6 +43,8 @@
             <a-asset-item id="ram-model" src="models/RAM.glb"></a-asset-item>
             <a-asset-item id="storage-model" src="models/Storage.glb"></a-asset-item>
             <a-asset-item id="cpuCooler-model" src="models/CPUcooler.glb"></a-asset-item>
+            <a-asset-item id="fan-model" src="models/Fan.glb"></a-asset-item>
+            <a-asset-item id="psu-model" src="models/PSU.glb"></a-asset-item>
         </a-assets>
 
         <a-camera id="camera">
@@ -64,7 +66,7 @@
                 cursor="fuse: true;"
                 position="0 0 -0.1"
                 geometry="primitive: ring; radiusInner: 0.002; radiusOuter: 0.0035"
-                material="color: black; shader: flat"
+                material="color: #4e4e4e; shader: flat"
                 raycaster="far: 20; interval: 1000; objects: .tutorialButtons">
             </a-entity>
             <a-box position="-2 -0.5 1" material="opacity: 0; transparent: true" color="black" id="hold"> </a-box>
@@ -114,13 +116,19 @@
         <a-entity class="placesModel" id="cpuCoolerP" gltf-model="#cpuCooler-model" scale="1.1 1.1 1.1" rotation="90 0 0" position="-1.6 4.7 -6.17" modelopacity="0" title="CPU cooler" infoText="De CPU verbruikt veel stroom en wordt daardoor ook snel warm, de CPU mag niet te warm worden want dan beschadigt die. Hiervoor is de CPU koeler. Dit is meestal een ventilator met een heatsink die de hitte opvangt. De koeler wordt bovenop de CPU geplaatst doormiddel van schroefjes en een soort lijm."></a-entity>
         <a-entity class="picksModel" gltf-model="#cpuCooler-model" modelopacity="1" scale="1.1 1.1 1.1" rotation="90 -90 0" position="6 1 3" title="CPU cooler" infoText="De CPU verbruikt veel stroom en wordt daardoor ook snel warm, de CPU mag niet te warm worden want dan beschadigt die. Hiervoor is de CPU koeler. Dit is meestal een ventilator met een heatsink die de hitte opvangt. De koeler wordt bovenop de CPU geplaatst doormiddel van schroefjes en een soort lijm."></a-entity>
 
+        <a-entity class="placesModel" id="fanP" gltf-model="#fan-model" position="3 1.2 -5" rotation="0 -90 0" modelopacity="0.3" title="Ventilator" infoText="De CPU is niet het enige onderdeel dat warmte genereert, daarom is het aangeraden om extra koeling aan de pc toe te voegen. De beste manier om dit te doen is door ventilators aan de voorkant van de pc te plaatsen."></a-entity>
+        <a-entity class="picksModel" gltf-model="#fan-model" position="6.5 1.2 -2.5" rotation="0 -90 0"  modelopacity="1" title="Ventilator" infoText="De CPU is niet het enige onderdeel dat warmte genereert, daarom is het aangeraden om extra koeling aan de pc toe te voegen. De beste manier om dit te doen is door ventilators aan de voorkant van de pc te plaatsen."></a-entity>
+
+        <a-entity class="placesModel" modelopacity="0.3" id="psuP" gltf-model="#psu-model" position="-2.7 8 -5.5" rotation="180 0 0" title="Power Supply Unit" infoText="De Power supply unit zorgt ervoor dat alle onderdelen van genoeg stroom worden voorzien. "></a-entity>
+        <a-entity class="picksModel" gltf-model="#psu-model" position="7.3 -2 4" rotation="0 0 0" title="Power Supply Unit" infoText="De Power supply unit zorgt ervoor dat alle onderdelen van genoeg stroom worden voorzien. "></a-entity>
+
         <a-entity obj-model = "obj: #kast-obj; mtl: #kast-mtl" position="0 3 -5" rotation= "0 180 0"> </a-entity>
 
         <a-sky color="lightblue"></a-sky>
 
         <a-plane id="finishScreen"color = "#646464" width="5" height="5" position="0 1 -2.9" >
             <a-text align="center" value="Gefeliciteerd" position="0 2 0" color="black" width="8" ></a-text>
-            <a-text align="center" id="tutorialText" value="Het is je gelukt! je hebt een PC in elkaar gezet! Hopelijk hebben we je voldoende geleerd zodat je een echte PC in elkaar kan zetten." position="0 0.8 0" color="white"></a-text>
+            <a-text align="center" id="tutorialText" value="Het is je gelukt! je hebt een PC in elkaar gezet! Hopelijk hebben we je voldoende geleerd zodat je een echte PC in elkaar kan zetten. De PSU zit vaak achterin aan de boven- of onderkant van de kast. De PSU is ook het onderdeel waar de elektriciteit kabel van de muur naar de pc wordt ingeplugd." position="0 0.8 0" color="white"></a-text>
             <a-plane class="finishButton" id="done" width="1" height="0.5" color="white" position="0 -0.4 0.1">
                 <a-text value="Oke" align="center" color="black"></a-text>
             </a-plane>

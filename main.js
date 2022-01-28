@@ -33,10 +33,14 @@ window.onload = () =>{
                 item.setAttribute("gltf-model", model)
                 picked.setAttribute("modelopacity", "0.3")
 
+                
                 infoTitle.setAttribute("value", picked.getAttribute("title"))
-                infoText.setAttribute("text", "value", picked.getAttribute("infoText"))
-
-                console.log(picked.getAttribute("infoText"))
+                
+                infoText.setAttribute("value", picked.getAttribute("infoText"))
+    
+                
+                console.log(infoText.getAttribute("text"))
+                
                 editTextBorder = textBorder.cloneNode(true);
                 camera.appendChild(editTextBorder)
             }

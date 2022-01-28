@@ -48,8 +48,7 @@
             <a-plane id="textBorder" width="0.58" height="0.25" color="black" position="-0.6 0.295 -0.5" material="shader:flat">
                 <a-plane id="textBar" width="0.55" height="0.23" color="grey" position="0.005 0 0.01" material="shader:flat">
                     <a-text id="infoTitle" width="1" value="test" align="center" position="0 0.09 0" color="black" shader="flat"></a-text>
-                    <a-entity id="infoText" text="width: 0.7; value:test; align:center;" position="0 0 0" shader="flat" geometry="primitive: plane; width: 0.55; height:auto"></a-entity>
-                    <!-- <a-text id="infoText" width="0.7" value="test" align="center" position="0 0 0" shader="flat" wrapcount="20"></a-text> -->
+                    <a-text id="infoText" width="0.55" value="Test" align="center" position="0 -0.02 0" shader="flat" wrapcount="20"></a-text>
                 </a-plane>
             </a-plane>
             <a-entity
@@ -68,40 +67,33 @@
 
         <a-entity light="type: ambient; intensity:0.3"></a-entity>
 
-        <a-entity light="type: point; intensity: 1.66; distance: 50; decay: 2" position="2.57397 3.87311 0.80308"></a-entity>
+        <a-entity light="type: point; intensity: 1.66; distance: 50; decay: 2" position="2.57397 3.87311 3.89617"></a-entity>
         
         <a-plane position="0 0 -8", rotation="-90 0 0", color="grey", width="30", height="30" material="shader:flat"></a-plane>
        
         <a-entity class="placesModel" id="motherboardP" position="-2.2 2.9 -6.2" gltf-model="#motherboard-model" rotation="90 0 0" modify-materials scale="1.3 1.3 1.3" modelopacity="0.3"></a-entity> 
-        <a-entity class="picksModel" gltf-model= "#motherboard-model" position="6 2.6 0" scale="1.3 1.3 1.3" rotation="90 -90 0" title="Motherboard" infoText="Het moederbord is een Circuit board waar alle andere onderdelen aan vast gemaakt worden. Het moederbord zorgt ervoor dat alle onderdelen goed samenwerken. Een moederbord heeft stroom kabels, data kabels, slots voor de videokaart en de RAM en een socket voor de CPU. Er zitten ook allerlei andere transistors, capacitors, jumpers etc. op om ervoor te zorgen dat alles goed samenwerkt. Het moederbord heeft ook allerlei andere ports zoals: USB, HDMI/Display port, aux, LAN."></a-entity>
+        <a-entity class="picksModel" gltf-model= "#motherboard-model" position="6 2.6 0" scale="1.3 1.3 1.3" rotation="90 -90 0" title="Moederbord" infoText="Het moederbord is een Circuit board waar alle andere onderdelen aan vast gemaakt worden. Het moederbord zorgt ervoor dat alle onderdelen goed samenwerken. Een moederbord heeft stroom kabels, data kabels, slots voor de videokaart en de RAM en een socket voor de CPU."></a-entity>
 
         <a-entity class="placesModel" id="cpuP" gltf-model="#cpu-model" position="-1.6 3.7 -6.2" rotation="90 0 0" scale="1.1 1.1 1.1" modelopacity="0"></a-entity>
-        <a-entity class="picksModel" gltf-model="#cpu-model" position="5.5 0.5 -1" rotation="90 -90 0" scale="1.1 1.1 1.1" title="CPU"></a-entity>
+        <a-entity class="picksModel" gltf-model="#cpu-model" position="5.5 0.5 -1" rotation="90 -90 0" scale="1.1 1.1 1.1" title="CPU" infoText="De CPU wordt in het de CPU-socket van het moederbord geplaatst. De CPU doet vrijwel alle berekeningen die je computer uit moet voeren, je kan er ook over na denken als het brein van de computer."></a-entity>
 
         <a-entity class="placesModel" id="gpuP" gltf-model="#gpu-model" rotation="180 -90 0" position="-2.1 1.3 -5.6" modelopacity="0"></a-entity>
-        <a-entity class="picksModel" gltf-model="#gpu-model" rotation="0 0 0" position="5 0.2 2"></a-entity>
+        <a-entity class="picksModel" gltf-model="#gpu-model" rotation="0 0 0" position="5 0.2 2" title="Videokaart" infoText="De videokaart is er om alles te processen wat met beeld te maken heeft, daarna stuurt deze de beelden door naar je monitor. Een videokaart moet worden aangesloten op een PCI express slot op het moederbord"></a-entity>
 
         <a-entity class="placesModel ramP" gltf-model="#ram-model" position="-0.08 3.71 -6" rotation="90 0 0" scale="1.35 1.35 1.35" modelopacity="0"></a-entity>
         <a-entity class="placesModel ramP" gltf-model="#ram-model" position="-0.33 3.71 -6" rotation="90 0 0" scale="1.35 1.35 1.35" modelopacity="0"></a-entity>
         <a-entity class="placesModel ramP" gltf-model="#ram-model" position="-0.585 3.71 -6" rotation="90 0 0" scale="1.35 1.35 1.35" modelopacity="0"></a-entity>
         <a-entity class="placesModel ramP" gltf-model="#ram-model" position="-0.84 3.71 -6" rotation="90 0 0" scale="1.35 1.35 1.35" modelopacity="0"></a-entity>
 
-        <a-entity class="picksModel" gltf-model="#ram-model" position="6 0.2 -2" rotation="0 90 0" scale="1.35 1.35 1.35"></a-entity>
-        <a-entity class="picksModel" gltf-model="#ram-model" position="6 0.2 -2.5" rotation="0 90 0" scale="1.35 1.35 1.35"></a-entity>
-        <a-entity class="picksModel" gltf-model="#ram-model" position="6 0.2 -3" rotation="0 90 0" scale="1.35 1.35 1.35"></a-entity>
-        <a-entity class="picksModel" gltf-model="#ram-model" position="6 0.2 -3.5" rotation="0 90 0" scale="1.35 1.35 1.35"></a-entity>
+        <a-entity class="picksModel" gltf-model="#ram-model" position="6 0.2 -2" rotation="0 90 0" scale="1.35 1.35 1.35" title="RAM" infoText="RAM staat voor Random Acces Memory, en is het korte termijn-geheugen van je computer. Hier wordt alle data opgeslagen waar door de CPU aan gewerkt wordt zodat de CPU hier snel bij kan. De RAM wordt aangesloten aan het moederbord via de RAM slots."></a-entity>
+        <a-entity class="picksModel" gltf-model="#ram-model" position="6 0.2 -2.5" rotation="0 90 0" scale="1.35 1.35 1.35" title="RAM" infoText="RAM staat voor Random Acces Memory, en is het korte termijn-geheugen van je computer. Hier wordt alle data opgeslagen waar door de CPU aan gewerkt wordt zodat de CPU hier snel bij kan. De RAM wordt aangesloten aan het moederbord via de RAM slots."></a-entity>
+        <a-entity class="picksModel" gltf-model="#ram-model" position="6 0.2 -3" rotation="0 90 0" scale="1.35 1.35 1.35" title="RAM" infoText="RAM staat voor Random Acces Memory, en is het korte termijn-geheugen van je computer. Hier wordt alle data opgeslagen waar door de CPU aan gewerkt wordt zodat de CPU hier snel bij kan. De RAM wordt aangesloten aan het moederbord via de RAM slots."></a-entity>
+        <a-entity class="picksModel" gltf-model="#ram-model" position="6 0.2 -3.5" rotation="0 90 0" scale="1.35 1.35 1.35" title="RAM" infoText="RAM staat voor Random Acces Memory, en is het korte termijn-geheugen van je computer. Hier wordt alle data opgeslagen waar door de CPU aan gewerkt wordt zodat de CPU hier snel bij kan. De RAM wordt aangesloten aan het moederbord via de RAM slots."></a-entity>
 
         <a-entity class="placesModel" gltf-model="#storage-model" scale="1.25 1.25 1.25" rotation="0 -90 0" position="3 4 -6" modelopacity = "0.3"></a-entity>
-        <a-entity class="picksModel" gltf-model="#storage-model" scale="1.25 1.25 1.25" rotation="0 -90 0" position="5 0.1 4.5"></a-entity>
+        <a-entity class="picksModel" gltf-model="#storage-model" scale="1.25 1.25 1.25" rotation="0 -90 0" position="5 0.1 4.5" title="Opslag" infoText="Buiten je kortetermijngeheugen heb je ook het lange termijn geheugen. De HDD en SSD zijn wat groter en maken gebruik van SATA-kabels om aan het moederbord aangesloten te worden. Ze hebben ook een stroom kabel nodig van de Power Supply Unit."></a-entity>
 
         <a-entity class="placesModel" id="cpuCoolerP" gltf-model="#cpuCooler-model" scale="1.1 1.1 1.1" rotation="90 0 0" position="-1.6 4.7 -6.17" modelopacity="0"></a-entity>
-        <a-entity class="picksModel" gltf-model="#cpuCooler-model" scale="1.1 1.1 1.1" rotation="90 -90 0" position="6 1 3"></a-entity>
+        <a-entity class="picksModel" gltf-model="#cpuCooler-model" scale="1.1 1.1 1.1" rotation="90 -90 0" position="6 1 3" title="CPU cooler" infoText="De CPU verbruikt veel stroom en wordt daardoor ook snel warm, de CPU mag niet te warm worden want dan beschadigt die. Hiervoor is de CPU koeler. Dit is meestal een ventilator met een heatsink die de hitte opvangt. De koeler wordt bovenop de CPU geplaatst doormiddel van schroefjes en een soort lijm."></a-entity>
 
         <a-entity obj-model = "obj: #kast-obj; mtl: #kast-mtl" position="0 3 -5" rotation= "0 180 0"> </a-entity>
-
-        <a-sky color="lightblue"></a-sky>
-
-        <a-sphere position="-7 2 -1" color="grey" class="reset"></a-sphere>
-    </a-scene> 
-</body>
-</html>

@@ -5,91 +5,134 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
+    <script src="https://unpkg.com/aframe-slice9-component/dist/aframe-slice9-component.min.js"></script>
     <script src="main.js"></script>
     <title>Document</title>
 </head>
 
 <body>
     <script>
-        AFRAME.registerComponent('modify-materials', {
-          init: function () {
-            // Wait for model to load.
-            console.log(1)
-            this.el.addEventListener('model-loaded', () => {
-              // Grab the mesh / scene.
-              const obj = this.el.getObject3D('mesh');
-              // Go over the submeshes and modify materials we want.
-              obj.traverse(node => {
-                if (node.name.indexOf('ship')  == -1) {
-                  node.material.opacity.set('0.5');
-                  console.log(3)
-                }
-              });
-            });
-          }
+        AFRAME.registerComponent('modelopacity', {
+            schema: {default: 1.0},
+            init: function () {
+              this.el.addEventListener('model-loaded', this.update.bind(this));
+            },
+            update: function () {
+                var mesh = this.el.getObject3D('mesh');
+                var data = this.data;
+                if (!mesh) { return; }
+                mesh.traverse(function (node) {
+                    if (node.isMesh) {
+                        node.material.opacity = data;
+                        node.material.transparent = true;
+                    }
+                });
+            }
         });
     </script>
+    <audio id="check"src="/sound/check.mp3"></audio>
     <a-scene>
 
         <a-assets>
             <a-asset-item id ="kast-obj" src="models/compkast.obj"></a-asset-item>
             <a-asset-item id ="kast-mtl" src="models/compkast.mtl"></a-asset-item>
 
-            <a-asset-item id ="motherboard-mtl" src="models/Motherboard.obj"></a-asset-item>
-            <a-asset-item id ="motherboard-obj" src="models/Motherboard.mtl"></a-asset-item>
-
             <a-asset-item id="motherboard-model" src="models/Motherboard.glb"></a-asset-item>
-            <a-asset-item id="motherboard-model" src="models/CPU.glb"></a-asset-item>
+            <a-asset-item id="cpu-model" src="models/CPU.glb"></a-asset-item>
+            <a-asset-item id="gpu-model" src="models/GPU.glb"></a-asset-item>
+            <a-asset-item id="ram-model" src="models/RAM.glb"></a-asset-item>
+            <a-asset-item id="storage-model" src="models/Storage.glb"></a-asset-item>
+            <a-asset-item id="cpuCooler-model" src="models/CPUcooler.glb"></a-asset-item>
+            <a-asset-item id="fan-model" src="models/Fan.glb"></a-asset-item>
+            <a-asset-item id="psu-model" src="models/PSU.glb"></a-asset-item>
         </a-assets>
 
         <a-camera id="camera">
+            <a-plane id="uitleg" position="1.8 1.5 -2" color="black" material="opacity:0.5; transparent:true" width=3.5 height= 0.4>
+                <a-text value="test text" align="center" width="3"></a-text>
+            </a-plane>
+
+            <a-plane id="textBorder" width="0.58" height="0.25" color="black" position="-0.57 0.295 -0.5" material="shader:flat">
+                <a-plane id="textBar" width="0.55" height="0.23" color="grey" position="0.005 0 0.01" material="shader:flat">
+                    <a-text id="infoTitle" width="1" value="test" align="center" position="0 0.09 0" color="black" shader="flat"></a-text>
+                    <a-text id="infoText" width="0.55" value="Test" align="center" position="0 -0.02 0" shader="flat" wrapcount="20"></a-text>
+                </a-plane>
+            </a-plane>
             <a-entity
+                id="cursor"
                 animation__click="property: scale; startEvents: click; easing: easeInCubic; dur: 150; from: 0.1 0.1 0.1; to: 1 1 1"
                 animation__fusing="property: scale; startEvents: fusing; easing: easeInCubic; dur: 1000; from: 1 1 1; to: 0.1 0.1 0.1"
                 animation__mouseleave="property: scale; startEvents: mouseleave; easing: easeInCubic; dur: 500; to: 1 1 1"
                 cursor="fuse: true;"
-                position="0 0 -1"
-                geometry="primitive: ring; radiusInner: 0.02; radiusOuter: 0.03"
-                material="color: black; shader: flat"
-                raycaster="far: 20; interval: 1000; objects: .picks, .places, .reset">
+                position="0 0 -0.1"
+                geometry="primitive: ring; radiusInner: 0.002; radiusOuter: 0.0035"
+                material="color: #4e4e4e; shader: flat"
+                raycaster="far: 20; interval: 1000; objects: .tutorialButtons">
             </a-entity>
-            <a-box position="-2 -0.5 1", material="opacity: 0; transparent: true" color="black" id="hold"> </a-box>
+            <a-box position="-2 -0.5 1" material="opacity: 0; transparent: true" color="black" id="hold"> </a-box>
+            <a-entity position="1.3 -0.6 -1" id="holdModel" rotation="90 0 0" scale="0.5 0.5 0.5"></a-entity>
         </a-camera>
+
+        <a-plane id="tutorialScreen"color = "#646464" width="5" height="5" position="0 1 -3" >
+            <a-text align="center" value="Uitleg" position="0 2 0" color="black" width="8" ></a-text>
+            <a-text align="center" id="tutorialText" value="Dit is PC-building-learner-vr, met deze VR beleving gaan wij jou aanleren hoe je een Computer in elkaar moet zetten.\n\n Hier is alvast wat informatie over de VR beleving." position="0 0.8 0" color="white"></a-text>
+            <a-plane class="tutorialButtons" id="nextTutorial" width="1" height="0.5" color="white" position="1.5 -0.4 0.1">
+                <a-text value="Next" align="center" color="black"></a-text>
+            </a-plane>
+            <a-plane class="tutorialButtons" id="skipTutorial" width="1" height="0.5" color="white" position="-1.5 -0.4 0.1">
+                <a-text value="Skip" align="center" color="black"></a-text>
+            </a-plane>
+        </a-plane>
+
+        <a-entity light="type: ambient; intensity:0.3"></a-entity>
+
+        <a-entity light="type: point; intensity: 1.66; distance: 50; decay: 2" position="2.57397 3.87311 3.89617"></a-entity>
+        <a-entity light="type: point; intensity: 0.5; distance: 50; decay: 2" position="-1.33862 3.87311 -4.16249"></a-entity>
         
-        <a-plane position="0 0 -8", rotation = "-90 0 0", color = "red", width = "30", height="30"></a-plane>
+        <a-plane position="0 0 -8", rotation="-90 0 0", color="grey", width="30", height="30" material="shader:flat"></a-plane>
+       
+        <a-entity class="placesModel" id="motherboardP" position="-2.2 2.9 -6.2" gltf-model="#motherboard-model" rotation="90 0 0" modify-materials scale="1.3 1.3 1.3" modelopacity="0.3" title="Moederbord" infoText="Het moederbord is een Circuit board waar alle andere onderdelen aan vast gemaakt worden. Het moederbord zorgt ervoor dat alle onderdelen goed samenwerken. Een moederbord heeft stroom kabels, data kabels, slots voor de videokaart en de RAM en een socket voor de CPU."></a-entity> 
+        <a-entity class="picksModel" id="moederbord" modelopacity="1" gltf-model= "#motherboard-model" position="6 2.6 0" scale="1.3 1.3 1.3" rotation="90 -90 0" title="Moederbord" infoText="Het moederbord is een Circuit board waar alle andere onderdelen aan vast gemaakt worden. Het moederbord zorgt ervoor dat alle onderdelen goed samenwerken. Een moederbord heeft stroom kabels, data kabels, slots voor de videokaart en de RAM en een socket voor de CPU."></a-entity>
 
-        <!-- <a-box position="6.5 2 0", material="opacity: 1; transparent: true" color="purple" class="picks" width="6" height="4" depth="0.5" rotation="0 -90 0">
-            <a-text value="Moederbord" color="black" scale="5 5 5" position="-3 0 0.3"></a-text>
-        </a-box> -->
+        <a-entity class="placesModel" id="cpuP" gltf-model="#cpu-model" position="-1.6 3.7 -6.2" rotation="90 0 0" scale="1.1 1.1 1.1" modelopacity="0" title="CPU" infoText="De CPU wordt in het de CPU-socket van het moederbord geplaatst. De CPU doet vrijwel alle berekeningen die je computer uit moet voeren, je kan er ook over na denken als het brein van de computer."></a-entity>
+        <a-entity class="picksModel" gltf-model="#cpu-model" modelopacity="1" position="5.5 0.5 -1" rotation="90 -90 0" scale="1.1 1.1 1.1" title="CPU" infoText="De CPU wordt in het de CPU-socket van het moederbord geplaatst. De CPU doet vrijwel alle berekeningen die je computer uit moet voeren, je kan er ook over na denken als het brein van de computer."></a-entity>
 
-        <a-entity class="picks" position="6.5 2.5 0" gltf-model= "#motherboard-model" position="0 1 0" rotation="90 -90 0"></a-entity>
+        <a-entity class="placesModel" id="gpuP" gltf-model="#gpu-model" rotation="180 -90 0" position="-2.1 1.3 -5.6" modelopacity="0"></a-entity>
+        <a-entity class="picksModel" gltf-model="#gpu-model" modelopacity="1" rotation="0 0 0" position="5 0.2 2" title="Videokaart" infoText="De videokaart is er om alles te processen wat met beeld te maken heeft, daarna stuurt deze de beelden door naar je monitor. Een videokaart moet worden aangesloten op een PCI express slot op het moederbord"></a-entity>
 
-        <a-entity class="places" position="-1.4 1.2 -5" gltf-model= "#motherboard-model" position="0 1 0" rotation="90 0 0" material="opacity: 0.5; transparent: true" modify-materials></a-entity>
+        <a-entity class="placesModel ramP" gltf-model="#ram-model" position="-0.08 3.71 -6" rotation="90 0 0" scale="1.35 1.35 1.35" modelopacity="0" title="RAM" infoText="RAM staat voor Random Acces Memory, en is het korte termijn-geheugen van je computer. Hier wordt alle data opgeslagen waar door de CPU aan gewerkt wordt zodat de CPU hier snel bij kan. De RAM wordt aangesloten aan het moederbord via de RAM slots."></a-entity>
+        <a-entity class="placesModel ramP" gltf-model="#ram-model" position="-0.33 3.71 -6" rotation="90 0 0" scale="1.35 1.35 1.35" modelopacity="0" title="RAM" infoText="RAM staat voor Random Acces Memory, en is het korte termijn-geheugen van je computer. Hier wordt alle data opgeslagen waar door de CPU aan gewerkt wordt zodat de CPU hier snel bij kan. De RAM wordt aangesloten aan het moederbord via de RAM slots."></a-entity>
+        <a-entity class="placesModel ramP" gltf-model="#ram-model" position="-0.585 3.71 -6" rotation="90 0 0" scale="1.35 1.35 1.35" modelopacity="0" title="RAM" infoText="RAM staat voor Random Acces Memory, en is het korte termijn-geheugen van je computer. Hier wordt alle data opgeslagen waar door de CPU aan gewerkt wordt zodat de CPU hier snel bij kan. De RAM wordt aangesloten aan het moederbord via de RAM slots."></a-entity>
+        <a-entity class="placesModel ramP" gltf-model="#ram-model" position="-0.84 3.71 -6" rotation="90 0 0" scale="1.35 1.35 1.35" modelopacity="0" title="RAM" infoText="RAM staat voor Random Acces Memory, en is het korte termijn-geheugen van je computer. Hier wordt alle data opgeslagen waar door de CPU aan gewerkt wordt zodat de CPU hier snel bij kan. De RAM wordt aangesloten aan het moederbord via de RAM slots."></a-entity>
 
-        <a-box position="5 0.5 1.5", material="opacity: 1; transparent: true" color="blue" class="picks" width ="2" height="0.8" depth="1.5" rotation="0 -90 0">
-            <a-text value="Videokaart" color="black" scale="2 2 2" position="-1 0 0.8"></a-text>
-        </a-box>
+        <a-entity class="picksModel" gltf-model="#ram-model" modelopacity="1" position="6 0.2 -2" rotation="0 90 0" scale="1.35 1.35 1.35" title="RAM" infoText="RAM staat voor Random Acces Memory, en is het korte termijn-geheugen van je computer. Hier wordt alle data opgeslagen waar door de CPU aan gewerkt wordt zodat de CPU hier snel bij kan. De RAM wordt aangesloten aan het moederbord via de RAM slots."></a-entity>
+        <a-entity class="picksModel" gltf-model="#ram-model" modelopacity="1" position="6 0.2 -2.5" rotation="0 90 0" scale="1.35 1.35 1.35" title="RAM" infoText="RAM staat voor Random Acces Memory, en is het korte termijn-geheugen van je computer. Hier wordt alle data opgeslagen waar door de CPU aan gewerkt wordt zodat de CPU hier snel bij kan. De RAM wordt aangesloten aan het moederbord via de RAM slots."></a-entity>
+        <a-entity class="picksModel" gltf-model="#ram-model" modelopacity="1" position="6 0.2 -3" rotation="0 90 0" scale="1.35 1.35 1.35" title="RAM" infoText="RAM staat voor Random Acces Memory, en is het korte termijn-geheugen van je computer. Hier wordt alle data opgeslagen waar door de CPU aan gewerkt wordt zodat de CPU hier snel bij kan. De RAM wordt aangesloten aan het moederbord via de RAM slots."></a-entity>
+        <a-entity class="picksModel" gltf-model="#ram-model" modelopacity="1" position="6 0.2 -3.5" rotation="0 90 0" scale="1.35 1.35 1.35" title="RAM" infoText="RAM staat voor Random Acces Memory, en is het korte termijn-geheugen van je computer. Hier wordt alle data opgeslagen waar door de CPU aan gewerkt wordt zodat de CPU hier snel bij kan. De RAM wordt aangesloten aan het moederbord via de RAM slots."></a-entity>
 
-        <a-box position="5 0.5 -1", material="opacity: 1; transparent: true" color="green" class="picks" depth="0.2" rotation="0 -90 0">
-            <a-text value="CPU" color="black" scale="2 2 2" position="-0.5 0 0.1"></a-text>
-        </a-box>
+        <a-entity id="storageP" class="placesModel" gltf-model="#storage-model" scale="1.25 1.25 1.25" rotation="0 -90 0" position="3 4 -6" modelopacity = "0.3" title="Opslag" infoText="Dit is het lange termijn geheugen, het slaat alle data op die langdurig bewaard moeten worden. Het maakt gebruik van SATA-kabels om aan het moederbord aangesloten te worden. Ze hebben ook een stroom kabel nodig van de Power Supply Unit."></a-entity>
+        <a-entity class="picksModel" gltf-model="#storage-model" modelopacity="1" scale="1.25 1.25 1.25" rotation="0 -90 0" position="5 0.1 4.5" title="Opslag" infoText="Dit is het lange termijn geheugen, het slaat alle data op die langdurig bewaard moeten worden. Het maakt gebruik van SATA-kabels om aan het moederbord aangesloten te worden. Ze hebben ook een stroom kabel nodig van de Power Supply Unit."></a-entity>
 
+        <a-entity class="placesModel" id="cpuCoolerP" gltf-model="#cpuCooler-model" scale="1.1 1.1 1.1" rotation="90 0 0" position="-1.6 10.7 -6.17" modelopacity="0" title="CPU cooler" infoText="De CPU verbruikt veel stroom en wordt daardoor ook snel warm, de CPU mag niet te warm worden want dan beschadigt die. Hiervoor is de CPU koeler. Dit is meestal een ventilator met een heatsink die de hitte opvangt. De koeler wordt bovenop de CPU geplaatst doormiddel van schroefjes en een soort lijm."></a-entity>
+        <a-entity class="picksModel" gltf-model="#cpuCooler-model" modelopacity="1" scale="1.1 1.1 1.1" rotation="90 -90 0" position="6 1 3" title="CPU cooler" infoText="De CPU verbruikt veel stroom en wordt daardoor ook snel warm, de CPU mag niet te warm worden want dan beschadigt die. Hiervoor is de CPU koeler. Dit is meestal een ventilator met een heatsink die de hitte opvangt. De koeler wordt bovenop de CPU geplaatst doormiddel van schroefjes en een soort lijm."></a-entity>
 
-        <a-box position="0 1 -6", material="opacity: 0.5; transparent: true" color="purple" class="places" width="6" height="8" depth="0.5"> 
-            <a-text value="Moederbord" color="black" scale="5 5 5" position="-3 2 0.3"></a-text>
-        </a-box>
-        
-        <a-box position="-1.4 1.2 -5", material="opacity: 0.5; transparent: true" color="blue" class="places" width ="2" height="0.8" depth="1.5">
-            <a-text value="Videokaart" color="black" scale="2 2 2" position="-1 0 0.8"></a-text>
-        </a-box>
+        <a-entity class="placesModel" id="fanP" gltf-model="#fan-model" position="3 1.2 -5" rotation="0 -90 0" modelopacity="0.3" title="Ventilator" infoText="De CPU is niet het enige onderdeel dat warmte genereert, daarom is het aangeraden om extra koeling aan de pc toe te voegen. De beste manier om dit te doen is door ventilators aan de voorkant van de pc te plaatsen."></a-entity>
+        <a-entity class="picksModel" gltf-model="#fan-model" position="6.5 1.2 -2.5" rotation="0 -90 0"  modelopacity="1" title="Ventilator" infoText="De CPU is niet het enige onderdeel dat warmte genereert, daarom is het aangeraden om extra koeling aan de pc toe te voegen. De beste manier om dit te doen is door ventilators aan de voorkant van de pc te plaatsen."></a-entity>
 
-        <a-box position="0 4 -5.7", material="opacity: 0.5; transparent: true" color="green" class="places" depth="0.2">
-            <a-text value="CPU" color="black" scale="2 2 2" position="-0.5 0 0.1"></a-text>
-        </a-box>
+        <a-entity class="placesModel" id="psuP" modelopacity="0.3" id="psuP" gltf-model="#psu-model" position="-2.7 5.5 -5.2" rotation="180 0 0" title="Power Supply Unit" infoText="De Power supply unit zorgt ervoor dat alle onderdelen van genoeg stroom worden voorzien. "></a-entity>
+        <a-entity class="picksModel" modelopacity="1" gltf-model="#psu-model" position="7.3 1 4" rotation="0 0 0" title="Power Supply Unit" infoText="De Power supply unit zorgt ervoor dat alle onderdelen van genoeg stroom worden voorzien. "></a-entity>
 
         <a-entity obj-model = "obj: #kast-obj; mtl: #kast-mtl" position="0 3 -5" rotation= "0 180 0"> </a-entity>
 
-        <a-sphere position="-7 2 -1" color="grey" class="reset"></a-sphere>
-    </a-scene> 
+        <a-sky color="lightblue"></a-sky>
+
+        <a-plane id="finishScreen"color = "#646464" width="5" height="5" position="0 1 -2.9" >
+            <a-text align="center" value="Gefeliciteerd" position="0 2 0" color="black" width="8" ></a-text>
+            <a-text align="center" id="tutorialText" value="Het is je gelukt! je hebt een PC in elkaar gezet! Hopelijk hebben we je voldoende geleerd zodat je een echte PC in elkaar kan zetten." position="0 0.8 0" color="white"></a-text>
+            <a-plane class="finishButton" id="done" width="1" height="0.5" color="white" position="0 -0.4 0.1">
+                <a-text value="Oke" align="center" color="black"></a-text>
+            </a-plane>
+        </a-plane>
+    </a-scene>
 </body>
 </html>

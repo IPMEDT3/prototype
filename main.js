@@ -21,8 +21,6 @@ window.onload = () =>{
     let motherboardP = document.getElementById("motherboardP")
     let cpuCoolerP = document.getElementById("cpuCoolerP")
     let storageP = document.getElementById("storageP")
-    let psuP = document.getElementById("psuP")
-    let psuVisible = false
     let motherboardVisible = false;
     let cpuVisible = false;
     let storageVisible = false;
@@ -40,7 +38,7 @@ window.onload = () =>{
 
     //uitleg
     const uitlegBar = document.getElementById("uitleg")
-    const uitleg = ["Je kan het beste beginnen met het plaatsen van de Power Supply Unit zodat je alle onderdelen meteen aan kan sluiten aan de stroom.","Dan kan je het beste dingen gaan plaatsen zoals de Ventilators en de Opslag zodat het moederbord niet in de weg zit", "Daarna kan je het beste het moederbord plaatsen omdat de rest van de onderdelen allemaal op het moederbord worden geplaatst", "Hierna kan je de videokaart, RAM en cpu plaatsen.", "Nadat de CPU is geplaatst kan je de CPU-cooler op de CPU zetten"]
+    const uitleg = ["Je kan het beste beginnen met het plaatsen van de opslag zodat er geen onderdelen in de weg zitten en je er goed bij kan komen.", "Daarna kan je het beste het moederbord plaatsen omdat de rest van de onnderdelen allemaal op het moederbord worden geplakt", "Hierna kan je de videokaart, RAM en cpu plaatsen.", "Nadat de CPU is geplaatst kan je de CPU-cooler op de CPU zetten"]
     uitlegBar.parentNode.removeChild(uitlegBar)
 
     //endScreen
@@ -92,6 +90,7 @@ window.onload = () =>{
     for(let i=0; i<pickModels.length;i++){
         const picked = pickModels[i];
         picked.onclick = () =>{
+            console.log(picked.getAttribute("modelopacity"))
             if(picked.getAttribute("modelopacity")== 1){
                 pickItem(picked)
             } else if(picked.getAttribute("modelopacity") != 1){
@@ -129,14 +128,14 @@ window.onload = () =>{
                 
                 if(cpuCoolerP.getAttribute("modelopacity") == 1 && !cpuCoolerVisible){
                     cpuCoolerVisible = true
-                    showUitleg(3)
+                    showUitleg(2)
                 }
                 
                 if(cpuP.getAttribute("modelopacity") == 1 && !cpuVisible){
                     cpuVisible = true
                     cpuCoolerP.setAttribute("modelopacity", "0.3")
                     cpuCoolerP.object3D.position.set(-1.6, 3.7, -6.17)
-                    showUitleg(4)
+                    showUitleg(3)
                 }
                 
                 if(motherboardP.getAttribute("modelopacity") == 1 && !motherboardVisible){
@@ -146,16 +145,11 @@ window.onload = () =>{
                     for(let i =0; i < ramP.length; i++){
                         ramP[i].setAttribute("modelopacity", "0.3")
                     }
-                    showUitleg(3)
+                    showUitleg(2)
                 }
 
                 if(storageP.getAttribute("modelopacity") == 1 && !storageVisible){
                     storageVisible = true
-                    showUitleg(2)
-                }
-
-                if(psuP.getAttribute("modelopacity") == 1 && !psuVisible){
-                    psuVisible = true
                     showUitleg(1)
                 }
 
@@ -188,7 +182,6 @@ window.onload = () =>{
             holdsItem = true
             const model = picked.getAttribute("gltf-model")
             item.setAttribute("gltf-model", model)
-
             picked.setAttribute("modelopacity", "0.3")
 
             infoTitle.setAttribute("value", picked.getAttribute("title"))
@@ -226,10 +219,10 @@ window.onload = () =>{
 
     //starts the game
     function endTutorial(){
-        tutorialScreen.parentNode.removeChild(tutorialScreen)
-        cursor.setAttribute("raycaster", {objects: ".picks, .places, .reset, .placesModel, .picksModel, .tutorialButtons, .finishbutton"})
         camera.appendChild(uitlegBar)
         showUitleg(0)
+        tutorialScreen.parentNode.removeChild(tutorialScreen)
+        cursor.setAttribute("raycaster", {objects: ".picks, .places, .reset, .placesModel, .picksModel, .tutorialButtons, .finishbutton"})
 
     }     
 }

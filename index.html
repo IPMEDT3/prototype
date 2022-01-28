@@ -117,6 +117,14 @@
         <a-entity obj-model = "obj: #kast-obj; mtl: #kast-mtl" position="0 3 -5" rotation= "0 180 0"> </a-entity>
 
         <a-sky color="lightblue"></a-sky>
+
+        <a-plane id="finishScreen"color = "#646464" width="5" height="5" position="0 1 -2.9" >
+            <a-text align="center" value="Gefeliciteerd" position="0 2 0" color="black" width="8" ></a-text>
+            <a-text align="center" id="tutorialText" value="Het is je gelukt! je hebt een PC in elkaar gezet! Hopelijk hebben we je voldoende geleerd zodat je een echte PC in elkaar kan zetten." position="0 0.8 0" color="white"></a-text>
+            <a-plane class="finishButton" id="done" width="1" height="0.5" color="white" position="0 -0.4 0.1">
+                <a-text value="Oke" align="center" color="black"></a-text>
+            </a-plane>
+        </a-plane>
     </a-scene>
 </body>
 </html>

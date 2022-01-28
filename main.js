@@ -41,6 +41,21 @@ window.onload = () =>{
     const uitleg = ["Je kan het beste beginnen met het plaatsen van de opslag zodat er geen onderdelen in de weg zitten en je er goed bij kan komen.", "Daarna kan je het beste het moederbord plaatsen omdat de rest van de onnderdelen allemaal op het moederbord worden geplakt", "Hierna kan je de videokaart, RAM en cpu plaatsen.", "Nadat de CPU is geplaatst kan je de CPU-cooler op de CPU zetten"]
     uitlegBar.parentNode.removeChild(uitlegBar)
 
+    //endScreen
+    const finish = document.getElementById("finishScreen") 
+    const finishButton = document.getElementById("done")
+    finish.parentNode.removeChild(finish)
+    
+    finishButton.onmouseenter = () => {
+        finishButton.setAttribute("color", "#0dd0b4")
+    }
+    finishButton.onmouseleave = () =>{
+        finishButton.setAttribute("color", "white")
+    }
+    finishButton.onclick = () =>{
+        window.location.reload()
+    }
+
     function showUitleg(x){
         uitlegBar.children[0].setAttribute("value", uitleg[x])
     }
@@ -101,16 +116,13 @@ window.onload = () =>{
             if(placed.getAttribute("gltf-model") == item.getAttribute("gltf-model")){
                 holdsItem = false
 
-                if(placed.className == "placesModel"){
+                if(placed.className == "placesModel"|| placed.className== "placesModel ramP"){
                     checkSound.volume = 0.2
                     checkSound.play()
                 }
 
                 item.removeAttribute("gltf-model")
                 placed.setAttribute("modelopacity", "1")
-
-                placed.className="picksModel"
-                pickModels = document.getElementsByClassName("picksModel")
 
                 editTextBorder.parentNode.removeChild(editTextBorder)
                 
@@ -139,6 +151,27 @@ window.onload = () =>{
                 if(storageP.getAttribute("modelopacity") == 1 && !storageVisible){
                     storageVisible = true
                     showUitleg(1)
+                }
+
+                let finishedList = []
+                for(let i= 0; i<placeModels.length; i++){
+                    if (placeModels[i].getAttribute("modelopacity") == 1){
+                        finishedList.push(placeModels[i])
+                        if(finishedList.length == 1){
+                            cursor.setAttribute("raycaster", {objects: ".finishbutton, #done"})
+                            uitlegBar.parentNode.removeChild(uitlegBar)
+                            storageP.parentNode.appendChild(finish)
+                            finishButton.onmouseenter = () => {
+                                finishButton.setAttribute("color", "#0dd0b4")
+                            }
+                            finishButton.onmouseleave = () =>{
+                                finishButton.setAttribute("color", "white")
+                            }
+                            finishButton.onclick = () =>{
+                                window.location.reload()
+                            }
+                        }
+                    }
                 }
             }
         }
@@ -189,7 +222,7 @@ window.onload = () =>{
         camera.appendChild(uitlegBar)
         showUitleg(0)
         tutorialScreen.parentNode.removeChild(tutorialScreen)
-        cursor.setAttribute("raycaster", {objects: ".picks, .places, .reset, .placesModel, .picksModel, .tutorialButtons"})
+        cursor.setAttribute("raycaster", {objects: ".picks, .places, .reset, .placesModel, .picksModel, .tutorialButtons, .finishbutton"})
 
     }     
 }
